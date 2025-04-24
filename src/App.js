@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Header from "./components/Header";
+import ChatPage from "./pages/ChatPage";
+import { resetChat } from "./api/api";
+import "./styles/App.css";
 
 function App() {
+  const handleResetChat = async () => {
+    try {
+      await resetChat();
+      // Refresh page to reset state
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to reset chat:", error);
+      alert("Failed to reset conversation. Please try again.");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="app">
+      <Header onResetChat={handleResetChat} />
+      <main className="app-main">
+        <ChatPage />
+      </main>
+      <footer className="app-footer">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          © {new Date().getFullYear()} Mental Health Assistant | Powered by AI
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </footer>
     </div>
   );
 }
